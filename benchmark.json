@@ -1,0 +1,68 @@
+{
+  "rag": {
+    "accuracy": 0.1,
+    "accuracy_lenient": 0.1,
+    "avg_prompt_tokens": 1529.9333333333334,
+    "avg_completion_tokens": 4.333333333333333,
+    "avg_tokens": 1534.2666666666667,
+    "avg_seconds": 13.400333333333332,
+    "failures": {
+      "generation_fail": 12,
+      "retrieval_fail": 15,
+      "correct": 3
+    },
+    "routing": {
+      "rag->rag": 30
+    }
+  },
+  "graphrag": {
+    "accuracy": 0.3333333333333333,
+    "accuracy_lenient": 0.36666666666666664,
+    "avg_prompt_tokens": 841.4333333333333,
+    "avg_completion_tokens": 4.466666666666667,
+    "avg_tokens": 845.9,
+    "avg_seconds": 2.0686666666666667,
+    "failures": {
+      "generation_fail": 17,
+      "correct": 10,
+      "retrieval_fail": 3
+    },
+    "routing": {
+      "graphrag->graphrag": 30
+    }
+  },
+  "agentic": {
+    "accuracy": 0.8333333333333334,
+    "accuracy_lenient": 0.8333333333333334,
+    "avg_prompt_tokens": 624.7333333333333,
+    "avg_completion_tokens": 16.1,
+    "avg_tokens": 640.8333333333334,
+    "avg_seconds": 1.9566666666666668,
+    "failures": {
+      "correct": 25,
+      "generation_fail": 3,
+      "retrieval_fail": 2
+    },
+    "routing": {
+      "agentic->agentic": 30
+    }
+  },
+  "orchestrated": {
+    "accuracy": 0.8666666666666667,
+    "accuracy_lenient": 0.8666666666666667,
+    "avg_prompt_tokens": 879.7333333333333,
+    "avg_completion_tokens": 16.766666666666666,
+    "avg_tokens": 896.5,
+    "avg_seconds": 7.628333333333335,
+    "failures": {
+      "correct": 26,
+      "generation_fail": 3,
+      "retrieval_fail": 1
+    },
+    "routing": {
+      "multi->agentic": 24,
+      "single->graphrag": 5,
+      "single->agentic": 1
+    }
+  }
+}

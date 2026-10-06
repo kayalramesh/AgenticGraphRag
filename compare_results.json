@@ -1,0 +1,50 @@
+{
+  "rag": {
+    "accuracy": 0.10,
+    "avg_tokens": 1544,
+    "avg_llm_calls": 1.0,
+    "avg_seconds": 10.1,
+    "failures": {
+      "generation_fail": 9,
+      "correct": 2,
+      "retrieval_fail": 9,
+      "error": 0
+    }
+  },
+  "graphrag": {
+    "accuracy": 0.25,
+    "avg_tokens": 854,
+    "avg_llm_calls": 1.0,
+    "avg_seconds": 1.6,
+    "failures": {
+      "generation_fail": 13,
+      "correct": 5,
+      "retrieval_fail": 2,
+      "error": 0
+    }
+  },
+  "agentic": {
+    "accuracy": 0.80,
+    "avg_tokens": 582,
+    "avg_llm_calls": 1.0,
+    "avg_seconds": 1.3,
+    "failures": {
+      "generation_fail": 2,
+      "correct": 16,
+      "retrieval_fail": 2,
+      "error": 0
+    }
+  },
+  "orchestrated": {
+    "accuracy": 0.85,
+    "avg_tokens": 933,
+    "avg_llm_calls": 1.0,
+    "avg_seconds": 2.6,
+    "failures": {
+      "generation_fail": 2,
+      "correct": 17,
+      "retrieval_fail": 1,
+      "error": 0
+    }
+  }
+}

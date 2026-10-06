@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+chroma_db/
+.vscode/
+# Large datasets
+corpus.jsonl
+data_clean.jsonl

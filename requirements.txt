@@ -1,0 +1,13 @@
+# Agentic GraphRAG - Initial RAG Dependencies
+# Install with:
+# uv pip install -r requirements.txt
+
+chromadb
+sentence-transformers
+ollama
+requests
+pydantic
+
+# Development / testing
+pytest
+ruff
