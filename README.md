@@ -6,7 +6,7 @@ A question-answering system over an Olympics corpus that compares three retrieva
 
 - **Embeddings:** BGE
 - **Vector store:** ChromaDB
-- **LLM:** Qwen 2.5 served locally through Ollama
+- **LLM:** qwen2.5:7b-instruct served locally through Ollama
 - **Graph:** TigerGraph (Chunk, Entity and MENTIONS) plus a local entity index
 - **Techniques:** vector search, graph-based retrieval, re-ranking, context compression, structured reasoning for aggregation and temporal queries
 
@@ -110,7 +110,7 @@ The **Agentic GraphRAG** pipeline dynamically decides which retrieval strategy t
 
 ## The three pipelines
 
-1. **RAG:** embeds the question, retrieves the top chunks from ChromaDB and asks Qwen 2.5 to answer from them.
+1. **RAG:** embeds the question, retrieves the top chunks from ChromaDB and asks qwen2.5:7b-instruct to answer from them.
 2. **GraphRAG:** adds graph retrieval. Entities found in the question are used to pull related chunks through the entity graph. Results are merged with vector hits, re-ranked and compressed before generation.
 3. **Agentic GraphRAG:** parses the question first. Counting, ranking and venue-plus-date questions are answered directly from the structured fact table (`facts.py`). Other questions are split by a planner into sub-questions, each answered with retrieval, and the collected facts are combined in a final answer step.
 
@@ -131,11 +131,11 @@ AgenticGraphRag/
 
 ## Setup
 
-Requirements: Python 3.12, [Ollama](https://ollama.com) with Qwen 2.5 pulled, and a TigerGraph Cloud instance (optional, only for the TigerGraph graph backend).
+Requirements: Python 3.12, [Ollama](https://ollama.com) with qwen2.5:7b-instruct pulled, and a TigerGraph Cloud instance (optional, only for the TigerGraph graph backend).
 
 ```powershell
 # install dependencies in your environment (uv / pip), then:
-ollama pull qwen2.5
+ollama pull qwen2.5:7b-instruct
 ollama list          # confirm Ollama is running
 ```
 
