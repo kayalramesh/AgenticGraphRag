@@ -28,62 +28,85 @@ Agentic GraphRAG is both the most accurate single pipeline and the cheapest in t
 An earlier run on a different, larger question set (before the structured fact table was fixed and enabled) gave RAG 40%, GraphRAG 43.3% and Agentic GraphRAG 60%, with the agentic pipeline taking about 20 s per query.
 
 ### Architecture
-## Indexing Phase (Offline - Run Once)
-Olympics Corpus
-       │
-       ▼
-   Chunking
-       │
- ┌─────┴─────┐
- │           │
- ▼           ▼
-BGE      Entity Extraction
-Embeddings   (Regex)
- │           │
- ▼           ▼
-ChromaDB   entity_index.json
-Vector DB   (entity → chunk IDs)
- │           │
- │           ▼
- │      TigerGraph
- │   Chunk ─ MENTIONS ─ Entity
- │
- ▼
-Structured Fact Table
-(events, venues, dates, medals)
 
-## Query-Time Phase (Online)
-User Question
-       │
-       ▼
- ┌─────────────────┐
- │   Orchestrator  │
- │    (Router)     │
- └─────────────────┘
-       │
- ┌─────┴──────────────┐
- │                    │
- ▼                    ▼
-GraphRAG         Agentic GraphRAG
-(single-hop)     (Planner + Sub-questions)
- │                    │
- └─────────┬──────────┘
-           ▼
- ┌───────────────────────────┐
- │     Retrieval Layer       │
- │                           │
- │ • ChromaDB Search         │
- │ • TigerGraph Expansion    │
- │ • Re-ranking              │
- │ • Context Compression     │
- └───────────────────────────┘
-           │
-           ▼
-     Qwen 2.5 (Ollama)
-           │
-           ▼
-        Answer
+The system is organized into two phases: **offline indexing** and **online query processing**.
 
+#### Indexing Phase — Offline
+
+```text
+                         Olympics Corpus
+                               │
+                               ▼
+                            Chunking
+                               │
+                    ┌──────────┴──────────┐
+                    │                     │
+                    ▼                     ▼
+              BGE Embeddings       Entity Extraction
+                    │                  (Regex)
+                    ▼                     │
+                ChromaDB                 ▼
+              Vector Store         entity_index.json
+                    │              (Entity → Chunk IDs)
+                    │                     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                          TigerGraph
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+                 ▼                           ▼
+        Chunk ── MENTIONS ── Entity    Structured Facts
+                                      (events, venues,
+                                       dates, medals)
+```
+
+#### Query-Time Phase — Online
+
+```text
+                         User Question
+                               │
+                               ▼
+                    ┌───────────────────┐
+                    │    Orchestrator   │
+                    │      (Router)     │
+                    └─────────┬─────────┘
+                              │
+             ┌────────────────┼────────────────┐
+             │                │                │
+             ▼                ▼                ▼
+            RAG           GraphRAG       Agentic GraphRAG
+       Similarity Search  Graph +       Planner + Dynamic
+                         Content        Sub-questions
+             │                │                │
+             └────────────────┼────────────────┘
+                              ▼
+                 ┌─────────────────────────┐
+                 │    Retrieval Layer      │
+                 │                         │
+                 │ • ChromaDB Search       │
+                 │ • TigerGraph Expansion  │
+                 │ • Re-ranking            │
+                 │ • Context Compression   │
+                 └────────────┬────────────┘
+                              │
+                              ▼
+                       Qwen 2.5 (Ollama)
+                              │
+                              ▼
+                           Answer
+```
+
+### Pipeline Comparison
+
+| Pipeline | Main Strategy | Retrieval |
+|---|---|---|
+| **RAG** | Semantic similarity | ChromaDB |
+| **GraphRAG** | Entity and relationship traversal | TigerGraph + supporting content |
+| **Agentic GraphRAG** | Dynamic planning and tool selection | ChromaDB + TigerGraph + reasoning |
+
+The **Agentic GraphRAG** pipeline dynamically decides which retrieval strategy to use based on the question, available evidence, and information still required to answer the query.
 
 ## The three pipelines
 
