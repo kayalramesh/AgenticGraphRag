@@ -16,9 +16,9 @@ Latest benchmark on 20 Olympics questions (`python rag_pipeline.py compare --lim
 
 | Pipeline | Accuracy | Lenient (>=80% of gold words) | Tokens/question | Sec/question |
 |---|---|---|---|---|
-| RAG | 10.0% | 10.0% | 1544 | 10.1 |
-| GraphRAG | 25.0% | 30.0% | 854 | 1.6 |
-| Agentic GraphRAG | 80.0% | 80.0% | 582 | 1.3 |
+| RAG | 10.0% | 10.0% | 1534 | 13.4 |
+| GraphRAG | 33.3% | 30.0% | 846 | 2.07 |
+| Agentic GraphRAG | 83.3% | 80.0% | 641 | 1.96 |
 | **Orchestrated** | **85.0%** | 85.0% | 933 | 2.6 |
 
 The orchestrator routed 16 questions to the agentic pipeline, 3 to GraphRAG for single-hop questions, and 1 single-hop question to the agentic pipeline.
